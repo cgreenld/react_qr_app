@@ -1,42 +1,50 @@
-//import osmo from "assets/osmo_black.png";
-//import toggle from "./images/toggle.png";
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import QRCode from "./components/qrCode";
 import { useFlags } from "launchdarkly-react-client-sdk";
+import { addResponseMessage } from 'react-chat-widget';
+import Chatbot from "./components/chatbot";
+import QRCode from "./components/qrCode";
 import HeaderLDLogo from "./components/headerLogo";
-import SpinnyLogo from "./components/spinnyLogo";
-import Toggle from "./components/toggle";
+import Heart from "./components/heart";
+import CustomerLogo from "./components/customerLogo";
+import Astronaut from "./components/astronaut";
 
 function App() {
   const [headerStyle, setHeaderStyle] = useState("gray-app-header");
-  const { reactBackgroundColor } = useFlags();
+  const { configBackgroundColor } = useFlags();
 
   useEffect(() => {
     setHeaderStyle("gray-app-header");
     const updateBackGroundColor = () => {
       // Sets the className to "purple-app-header", "blue-app-header", etc.
-      const headerStyle = reactBackgroundColor + "-app-header";
+      const headerStyle = configBackgroundColor + "-app-header";
       setHeaderStyle(headerStyle);
 
-      return reactBackgroundColor;
+      return configBackgroundColor;
     };
     updateBackGroundColor();
-  }, [reactBackgroundColor]);
+  }, [configBackgroundColor]);
+
+
+  useEffect(() => {
+    addResponseMessage('Hi there! Ask me a question!');
+  }, []);
 
   return (
     <div className={headerStyle}>
       <div className="black-header">
         <HeaderLDLogo />
       </div>
+      
       <div className={headerStyle}>
+        <Heart />
+        <CustomerLogo />
         <QRCode />
         <br />
-        <br />
-        <SpinnyLogo />
-        <br />
-        <br />
-        <Toggle />
+        <Astronaut />
+        <div className="chatbot">
+          <Chatbot />
+        </div>
       </div>
     </div>
   );
